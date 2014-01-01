@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: monospace;
+        }
+        
+        h1 {
+            padding: 10px 0;
+        }
+        
+        #container {
+            /*padding: 10px;*/
+            width: 960px;
+            margin: 0 auto;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <div id="container">
+        <h1>WebGL Game</h1>
+        
+        <canvas id="canvas" width="960" height="720">
+            Your browser doesn't seem to support HTML5 canvas.
+        </canvas>
+    </div>
+    
+    <script type="application/dart" src="game.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+    
+</body>
+</html>
