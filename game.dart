@@ -27,8 +27,11 @@ Texture1 stone1;
 Texture1 stone2;
 Texture1 stoneSlab;
 var stoneCracked;
+Texture1 playerTexture;
 
 double rotation = 0.0;
+double animationFrame = 0.0;
+double animationFrameWalk = 0.0;
 List<bool> keysDown = new List<bool>(256);
 List<bool> keysPressed = new List<bool>(256);
 int LEFT = 37;
@@ -87,17 +90,25 @@ void render () {
 		level[i].render();
 	}
 
-	/*Matrix4 modelMatrix;
-	for(int i = 0; i < 1000; i++) {
-		modelMatrix = new Matrix4.identity();
-		modelMatrix.translate(1.0*(i%16), 3.0, 1.0*(i/16));
-		gl.uniformMatrix4fv(modelViewMatrixUniform, false, modelMatrix.storage);
-		stoneSlab.bind();
-		floor.render();
-	}*/
+	Matrix4 modelMatrix = new Matrix4.identity();
+	modelMatrix.translate(0.0, 0.0, 0.0);
+	gl.uniformMatrix4fv(modelViewMatrixUniform, false, modelMatrix.storage);
+	playerTexture.bind();
+	playerSwing[animationFrame.floor()].render();
+
+	modelMatrix = new Matrix4.identity();
+	modelMatrix.translate(0.0, 0.0, 2.0);
+	gl.uniformMatrix4fv(modelViewMatrixUniform, false, modelMatrix.storage);
+	playerTexture.bind();
+	playerWalk[animationFrameWalk.floor()].render();
 }
 
 void tick () {
+
+	animationFrame += 0.5;
+	if(animationFrame >= 8.0)animationFrame = 0.0;
+	animationFrameWalk += 0.125;
+	if(animationFrameWalk >= 6.0)animationFrameWalk = 0.0;
 
 	rotation += 0.01;
 	if(keysDown[LEFT]) cameraX -= 0.1;
@@ -130,6 +141,9 @@ void main () {
 		new Texture1('src/stoneCracked2.png'),
 		new Texture1('src/stoneCracked3.png'),
 	];
+	playerTexture = new Texture1('src/player.png');
+
+	createPlayerBuffer();
 
 	keysPressed.fillRange(0, keysPressed.length, false);
 	keysDown.fillRange(0, keysDown.length, false);
